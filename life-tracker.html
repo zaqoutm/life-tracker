@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>أسابيع عمري</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap"
+    />
+    <style>
+      :root {
+        --bg: #eef2f6;
+        --card: #fff;
+        --ink: #14213d;
+        --mute: #5b6b83;
+        --lived: #1d9bf0;
+        --left: #c9d4e3;
+        --line: #d8e0eb;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0f1726;
+          --card: #18233a;
+          --ink: #eef2f8;
+          --mute: #9db0cc;
+          --lived: #1d9bf0;
+          --left: #2d3e5e;
+          --line: #2a3a58;
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0f1726;
+        --card: #18233a;
+        --ink: #eef2f8;
+        --mute: #9db0cc;
+        --lived: #1d9bf0;
+        --left: #2d3e5e;
+        --line: #2a3a58;
+        color-scheme: dark;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+        height: 100%;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Cairo", Tahoma, Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .in {
+        width: 100%;
+        max-width: 520px;
+        margin: 0 auto;
+        padding: 0 16px;
+      }
+      .hero {
+        background: var(--lived);
+        color: var(--on, #fff);
+        padding: 14px 0 20px;
+        flex: 0 0 auto;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+        direction: rtl;
+      }
+      .top .btn {
+        direction: ltr;
+      }
+      .seg {
+        display: flex;
+        border: 1px solid currentColor;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .btn {
+        font: inherit;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--on, #fff);
+        background: transparent;
+        border: 0;
+        padding: 6px 12px;
+        cursor: pointer;
+      }
+      .hero .seg .btn[aria-pressed="true"] {
+        background: var(--on, #fff);
+        color: var(--lived);
+      }
+      .btn.solo {
+        border: 1px solid currentColor;
+        border-radius: 10px;
+      }
+      .grp {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .sw {
+        position: relative;
+        width: 34px;
+        height: 34px;
+        border: 1px solid currentColor;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1rem;
+        line-height: 1;
+      }
+      .sw:focus-within {
+        outline: 3px solid var(--on, #fff);
+        outline-offset: 2px;
+      }
+      .sw input {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+        padding: 0;
+        border: 0;
+      }
+      .btn:focus-visible,
+      input:focus-visible {
+        outline: 3px solid var(--on, #fff);
+        outline-offset: 2px;
+      }
+      input:focus-visible {
+        outline-color: var(--lived);
+      }
+      h1 {
+        font-size: 1.7rem;
+        font-weight: 800;
+        margin: 0 0 4px;
+        line-height: 1.3;
+      }
+      p.sub {
+        margin: 0;
+        font-size: 0.92rem;
+        line-height: 1.6;
+      }
+      .formsec {
+        flex: 1 1 auto;
+        min-height: 0;
+        padding: 16px 0 12px;
+        display: flex;
+      }
+      .formsec .in {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      input {
+        width: 100%;
+        font: inherit;
+        font-size: 1.05rem;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1.5px solid var(--line);
+        background: var(--card);
+        color: var(--ink);
+      }
+      #err {
+        color: #d6453d;
+        margin: 6px 0 0;
+        min-height: 1.2em;
+        font-size: 0.9rem;
+      }
+      #out {
+        margin-top: 6px;
+        display: none;
+      }
+      .pbox {
+        margin: 0 0 12px;
+      }
+      .phead {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+      .phead b {
+        font-size: 2.2rem;
+        font-weight: 800;
+        line-height: 1;
+      }
+      .phead span {
+        color: var(--mute);
+      }
+      .bar {
+        height: 26px;
+        border-radius: 9px;
+        background: var(--left);
+        overflow: hidden;
+      }
+      .fill {
+        height: 100%;
+        width: 0;
+        background: var(--lived);
+        border-radius: 9px;
+        transition: width 0.9s ease;
+      }
+      .pfoot {
+        display: flex;
+        justify-content: space-between;
+        color: var(--mute);
+        font-size: 0.8rem;
+        margin-top: 4px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .stats.wide {
+        margin-bottom: 10px;
+      }
+      .stat {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 10px 12px;
+      }
+      .stat b {
+        display: block;
+        font-size: 1.3rem;
+        font-weight: 800;
+        line-height: 1.4;
+      }
+      .stat span {
+        color: var(--mute);
+        font-size: 0.85rem;
+      }
+      .dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-inline-end: 6px;
+      }
+      .note {
+        color: var(--mute);
+        font-size: 0.8rem;
+        margin: 10px 0 0;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="in">
+        <div class="top">
+          <div class="grp">
+            <button class="btn solo" id="theme" type="button"></button>
+            <label class="sw" id="color-l"
+              >🎨<input type="color" id="color" value="#1d9bf0"
+            /></label>
+          </div>
+          <div class="seg" role="group" aria-label="Language">
+            <button class="btn" id="l-ar" type="button" data-lang="ar">
+              العربية
+            </button>
+            <button class="btn" id="l-en" type="button" data-lang="en">
+              English
+            </button>
+          </div>
+        </div>
+        <h1 id="t-title"></h1>
+        <p class="sub" id="t-sub"></p>
+      </div>
+    </header>
+    <section class="formsec">
+      <div class="in">
+        <label for="dob" id="t-dob"></label>
+        <input type="date" id="dob" value="1990-01-08" />
+        <div id="err" role="alert"></div>
+        <div id="out">
+          <div class="pbox">
+            <div class="phead">
+              <b id="pct">0%</b><span id="t-passed"></span>
+            </div>
+            <div
+              class="bar"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              id="bar"
+            >
+              <div class="fill" id="fill"></div>
+            </div>
+            <div class="pfoot">
+              <span id="t-birth"></span><span id="t-end"></span>
+            </div>
+          </div>
+          <div class="stats wide">
+            <div class="stat"><b id="age">0</b><span id="t-age"></span></div>
+            <div class="stat">
+              <b id="yleft">0</b><span id="t-yleft"></span>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <b id="lived">0</b
+              ><span
+                ><i class="dot" style="background: var(--lived)"></i
+                ><i id="t-lived" style="font-style: normal"></i
+              ></span>
+            </div>
+            <div class="stat">
+              <b id="left">0</b
+              ><span
+                ><i class="dot" style="background: var(--left)"></i
+                ><i id="t-left" style="font-style: normal"></i
+              ></span>
+            </div>
+          </div>
+          <p class="note" id="note"></p>
+        </div>
+      </div>
+    </section>
+    <script>
+      (function () {
+        var LIFE = 75,
+          WEEK = 7 * 24 * 3600 * 1000,
+          YEAR = 365.25 * 24 * 3600 * 1000;
+        var $ = function (i) {
+          return document.getElementById(i);
+        };
+        var D = {
+          ar: {
+            dir: "rtl",
+            loc: "ar-EG",
+            title: "أسابيع عمري",
+            sub: "أدخل تاريخ ميلادك وشوف كم أسبوع عشته وكم باقي لمتوسط عمر ٧٥ سنة.",
+            dob: "تاريخ الميلاد",
+            err: "اختر تاريخ ميلاد صحيح قبل اليوم.",
+            passed: "من عمرك مضى",
+            birth: "الولادة",
+            end: "٧٥ سنة",
+            age: "عمرك الآن",
+            yleft: "متبقي من العمر",
+            lived: "أسبوع مضى",
+            left: "أسبوع متبقي",
+            total: "إجمالي أسابيع ٧٥ سنة: ",
+            over: " — تجاوزت المتوسط، كل أسبوع الآن مكسب.",
+            dark: "☾ الوضع الداكن",
+            light: "☀ الوضع الفاتح",
+            color: "اللون الرئيسي",
+            ym: function (y, m, n) {
+              return n(y) + " سنة" + (m ? " و" + n(m) + " شهر" : "");
+            },
+          },
+          en: {
+            dir: "ltr",
+            loc: "en-US",
+            title: "My Life in Weeks",
+            sub: "Enter your birth date to see how many weeks you’ve lived and how many remain for an average lifespan of 75 years.",
+            dob: "Date of birth",
+            err: "Pick a valid birth date before today.",
+            passed: "of your life has passed",
+            birth: "Birth",
+            end: "75 years",
+            age: "Your age now",
+            yleft: "Time remaining",
+            lived: "weeks lived",
+            left: "weeks left",
+            total: "Total weeks in 75 years: ",
+            over: " — you’re past the average, every week is a bonus.",
+            dark: "☾ Dark mode",
+            light: "☀ Light mode",
+            color: "Main color",
+            ym: function (y, m, n) {
+              return (
+                n(y) +
+                (y == 1 ? " year" : " years") +
+                (m ? ", " + n(m) + (m == 1 ? " month" : " months") : "")
+              );
+            },
+          },
+        };
+        var lang = "ar",
+          root = document.documentElement;
+        try {
+          var s = localStorage.getItem("lw-lang");
+          if (s && D[s]) lang = s;
+          else if ((navigator.language || "").slice(0, 2) === "en") lang = "en";
+        } catch (e) {}
+        var theme =
+          root.getAttribute("data-theme") ||
+          (window.matchMedia &&
+          matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        try {
+          var st = localStorage.getItem("lw-theme");
+          if (st === "dark" || st === "light") theme = st;
+        } catch (e) {}
+        function setAccent(c) {
+          var r = parseInt(c.slice(1, 3), 16),
+            g = parseInt(c.slice(3, 5), 16),
+            b = parseInt(c.slice(5, 7), 16);
+          root.style.setProperty("--lived", c);
+          root.style.setProperty(
+            "--on",
+            (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.65
+              ? "#14213d"
+              : "#fff",
+          );
+          $("color").value = c;
+        }
+        try {
+          var ac = localStorage.getItem("lw-accent");
+          if (ac && /^#[0-9a-f]{6}$/i.test(ac)) setAccent(ac);
+        } catch (e) {}
+        $("color").addEventListener("input", function () {
+          setAccent(this.value);
+          try {
+            localStorage.setItem("lw-accent", this.value);
+          } catch (e) {}
+        });
+
+        function apply() {
+          var d = D[lang];
+          root.lang = lang;
+          root.dir = d.dir;
+          root.setAttribute("data-theme", theme);
+          document.title = d.title;
+          $("t-title").textContent = d.title;
+          $("t-sub").textContent = d.sub;
+          $("t-dob").textContent = d.dob;
+          $("t-passed").textContent = d.passed;
+          $("t-birth").textContent = d.birth;
+          $("t-end").textContent = d.end;
+          $("t-age").textContent = d.age;
+          $("t-yleft").textContent = d.yleft;
+          $("t-lived").textContent = d.lived;
+          $("t-left").textContent = d.left;
+          $("theme").textContent = theme === "dark" ? d.light : d.dark;
+          $("color-l").title = d.color;
+          $("color").setAttribute("aria-label", d.color);
+          $("l-ar").setAttribute("aria-pressed", lang === "ar");
+          $("l-en").setAttribute("aria-pressed", lang === "en");
+          calc();
+        }
+        function calc() {
+          var d = D[lang],
+            nf = new Intl.NumberFormat(d.loc),
+            n = function (x) {
+              return nf.format(x);
+            };
+          var dob = $("dob"),
+            err = $("err"),
+            out = $("out");
+          err.textContent = "";
+          dob.max = new Date().toISOString().slice(0, 10);
+          if (!dob.value) {
+            out.style.display = "none";
+            return;
+          }
+          var b = new Date(dob.value + "T00:00:00"),
+            now = new Date();
+          if (isNaN(b) || b > now) {
+            out.style.display = "none";
+            err.textContent = d.err;
+            return;
+          }
+          var end = new Date(b);
+          end.setFullYear(b.getFullYear() + LIFE);
+          var total = Math.round((end - b) / WEEK);
+          var lived = Math.min(total, Math.floor((now - b) / WEEK));
+          var left = Math.max(0, total - lived);
+          var pct = Math.min(100, (lived / total) * 100);
+          var yrs = now.getFullYear() - b.getFullYear(),
+            mo = now.getMonth() - b.getMonth(),
+            dy = now.getDate() - b.getDate();
+          if (dy < 0) mo--;
+          if (mo < 0) {
+            yrs--;
+            mo += 12;
+          }
+          var rem = Math.max(0, (end - now) / YEAR),
+            ry = Math.floor(rem),
+            rm = Math.floor((rem - ry) * 12);
+          out.style.display = "block";
+          $("age").textContent = d.ym(yrs, mo, n);
+          $("yleft").textContent = d.ym(ry, rm, n);
+          $("lived").textContent = n(lived);
+          $("left").textContent = n(left);
+          $("pct").textContent =
+            n(Math.round(pct * 10) / 10) + (lang === "ar" ? "٪" : "%");
+          $("note").textContent =
+            d.total + n(total) + (lived >= total ? d.over : "");
+          var fill = $("fill");
+          $("bar").setAttribute("aria-valuenow", Math.round(pct));
+          fill.style.width = "0";
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              fill.style.width = pct + "%";
+            });
+          });
+        }
+        $("dob").addEventListener("input", calc);
+        $("dob").addEventListener("change", calc);
+        $("theme").addEventListener("click", function () {
+          theme = theme === "dark" ? "light" : "dark";
+          try {
+            localStorage.setItem("lw-theme", theme);
+          } catch (e) {}
+          apply();
+        });
+        ["l-ar", "l-en"].forEach(function (id) {
+          $(id).addEventListener("click", function () {
+            lang = this.getAttribute("data-lang");
+            try {
+              localStorage.setItem("lw-lang", lang);
+            } catch (e) {}
+            apply();
+          });
+        });
+        apply();
+      })();
+    </script>
+  </body>
+</html>
